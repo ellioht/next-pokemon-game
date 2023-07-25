@@ -7,10 +7,11 @@ interface Pokemon {
 
 export async function GET() {
   const randomIds = getRandomPokemonIds(2);
+  console.log(randomIds);
 
   const pokemonData = await Promise.all(
     randomIds.map((id) =>
-      fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then((res) => res.json())
+      fetch(`https://pokeapi.co/api/v2/pokemon/${id}?${Math.random()}`).then((res) => res.json())
     )
   );
   return NextResponse.json(pokemonData);
