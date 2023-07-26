@@ -12,7 +12,7 @@ export async function GET() {
   const timestamp = Date.now();
   const pokemonData = await Promise.all(
     randomIds.map((id) =>
-      fetch(`https://pokeapi.co/api/v2/pokemon/${id}?timestamp=${timestamp}`).then((res) => res.json())
+      fetch(`https://pokeapi.co/api/v2/pokemon/${id}?timestamp=${timestamp}`, {next: { revalidate: 0 }}).then((res) => res.json())
     )
   );
   return NextResponse.json(pokemonData, { headers: { "Cache-Control": "no-cache" } });
