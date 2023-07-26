@@ -15,7 +15,7 @@ export async function GET() {
       fetch(`https://pokeapi.co/api/v2/pokemon/${id}?timestamp=${timestamp}`).then((res) => res.json())
     )
   );
-  return NextResponse.json(pokemonData);
+  return NextResponse.json(pokemonData, { headers: { "Cache-Control": "no-cache" } });
 }
 
 function getRandomPokemonIds(count: number): number[] {
