@@ -12,7 +12,7 @@ export async function GET() {
   const pokemonData = await Promise.all(
     randomIds.map((id) =>
       fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-        next: { revalidate: 10 },
+        next: { revalidate: 0 },
       }).then((res) => res.json())
     )
   );
