@@ -9,10 +9,11 @@ export async function GET() {
   const randomIds = getRandomPokemonIds(2);
   console.log(randomIds);
 
-  const timestamp = Date.now();
   const pokemonData = await Promise.all(
     randomIds.map((id) =>
-      fetch(`https://pokeapi.co/api/v2/pokemon/${id}?timestamp=${timestamp}`, {next: { revalidate: 0 }}).then((res) => res.json())
+      fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
+        cache: "no-store",
+      }).then((res) => res.json())
     )
   );
   return NextResponse.json(pokemonData, { headers: { "Cache-Control": "no-cache" } });
