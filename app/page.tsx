@@ -20,9 +20,7 @@ export default function Home() {
 
   const fetchPokemon = async () => {
     try {
-      const response = await fetch('/api/getpokemon', {
-        next: { revalidate: 10 },
-      });
+      const response = await fetch('/api/getpokemon');
       const data = await response.json();
       console.log(data.pokemon);
       console.log(data.ids);
