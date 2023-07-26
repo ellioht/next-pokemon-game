@@ -11,9 +11,7 @@ export async function GET() {
 
   const pokemonData = await Promise.all(
     randomIds.map((id) =>
-      fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-        next: { revalidate: 0 },
-      }).then((res) => res.json())
+      fetch(`https://pokeapi.co/api/v2/pokemon/${id}`).then((res) => res.json())
     )
   );
 
@@ -24,6 +22,8 @@ export async function GET() {
 
   return NextResponse.json(response);
 }
+
+export const revalidate = 0;
 
 function getRandomPokemonIds(count: number): number[] {
   const maxPokemonId = 898;
