@@ -21,8 +21,9 @@ export default function Home() {
   const fetchPokemon = async () => {
     try {
       const response = await axios.get('/api/getpokemon');
-      console.log(response.data);
-      setPokemon(response.data);
+      console.log(response.data.pokemon);
+      console.log(response.data.ids);
+      setPokemon(response.data.pokemon);
     } catch (error) {
       console.error('Error fetching Pokémon:', error);
     }

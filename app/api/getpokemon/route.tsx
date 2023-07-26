@@ -16,7 +16,13 @@ export async function GET() {
       }).then((res) => res.json())
     )
   );
-  return NextResponse.json(pokemonData, { headers: { "Cache-Control": "no-cache" } });
+
+  const response = {
+    ids: randomIds,
+    pokemon: pokemonData,
+  };
+
+  return NextResponse.json(response, { headers: { "Cache-Control": "no-cache" } });
 }
 
 function getRandomPokemonIds(count: number): number[] {
