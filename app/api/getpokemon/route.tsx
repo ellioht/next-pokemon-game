@@ -12,7 +12,7 @@ export async function GET() {
   const pokemonData = await Promise.all(
     randomIds.map((id) =>
       fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-        cache: "no-store",
+        next: { revalidate: 10 },
       }).then((res) => res.json())
     )
   );
@@ -22,7 +22,7 @@ export async function GET() {
     pokemon: pokemonData,
   };
 
-  return NextResponse.json(response, { headers: { "Cache-Control": "no-cache" } });
+  return NextResponse.json(response);
 }
 
 function getRandomPokemonIds(count: number): number[] {

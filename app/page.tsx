@@ -21,7 +21,7 @@ export default function Home() {
   const fetchPokemon = async () => {
     try {
       const response = await fetch('/api/getpokemon', {
-        cache: 'no-store',
+        next: { revalidate: 10 },
       });
       const data = await response.json();
       console.log(data.pokemon);
