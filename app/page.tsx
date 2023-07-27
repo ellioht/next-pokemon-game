@@ -13,6 +13,8 @@ export default function Home() {
   const [nextPokemon, setNextPokemon] = useState<PokemonData[]>([]);
 
   const [score, setScore] = useState<number>(0);
+  const [animateScore, setAnimateScore] = useState(false);
+
   const [correct, setCorrect] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -39,21 +41,33 @@ export default function Home() {
     // check if id is the lowest id in pokemon array
     if (id === Math.min(...pokemon.map((poke) => poke.id))) {
       setCorrect("Correct!");
-      setScore(score + 1);
+      handleIncrement(false);
       setPokemon(nextPokemon);
       setLoading(true);
       fetchPokemon("pokemon", setNextPokemon);
     } else {
       setCorrect("Wrong!");
-      setScore(0);
+      handleIncrement(true);
       setPokemon(nextPokemon);
       setLoading(true);
       fetchPokemon("pokemon", setNextPokemon);
     }
   };
 
+  const handleIncrement = (reset: boolean) => {
+    if (reset) {
+      setScore(0);
+    } else {
+      setScore(score + 1);
+      setAnimateScore(true);
+      setTimeout(() => {
+        setAnimateScore(false);
+      }, 1000);
+    }
+  };
+
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center p-24">
+    <main className="flex flex-col items-center justify-center h-screen text-center">
       <h1 className="text-4xl font-bold m-10">Guess which Pokémon came first!</h1>
       <p className={`mb-8 ${correct === "Correct!" ? "text-green-500" : "text-red-500"}`}>
         {correct}
@@ -64,16 +78,16 @@ export default function Home() {
         ) : (
           pokemon &&
           pokemon.map((poke) => (
-            <div key={poke.name}>
-              <button className="poke-card" onClick={() => checkPokemon(poke.id)}>
-                <h3>{poke.name}</h3>
-                <img src={poke.sprites?.front_default} alt={poke.name} />
+            <div key={poke.name} className="poke-card">
+              <button onClick={() => checkPokemon(poke.id)}>
+                <h3 className="card-top">{poke.name}</h3>
+                <img src={poke.sprites?.front_default} />
               </button>
             </div>
           ))
         )}
       </div>
-      <h1 className="text-4xl font-bold m-10">Score: {score}</h1>
+      <h1 className={`text-4xl font-bold m-10 ${animateScore ? 'score-animation' : ''}`}>Score: {score}</h1>
     </main>
   );
 }
